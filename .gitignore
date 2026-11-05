@@ -1,0 +1,16 @@
+# Entorno y secretos
+.venv/
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# Datos descargados (no se suben al repo)
+data/*.csv
+
+# Editores
+.vscode/
+.idea/
