@@ -45,26 +45,29 @@ CREATE TABLE book_authors (
     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- -------------------------------------------------------------
--- TODO (Semana 1): tabla `tags`
---   Columnas: id (INT, PK, viene de tags.csv), name (VARCHAR, NOT NULL)
--- -------------------------------------------------------------
+
+CREATE TABLE tags (
+    id   INT     NOT NULL PRIMARY KEY,
+    name VARCHAR(255)     NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- -------------------------------------------------------------
--- TODO (Semana 1): tabla `book_tags`
---   Relación libro <-> etiqueta, con la columna `count`
---   (cuántos usuarios pusieron esa etiqueta al libro).
---   Pista: PK compuesta (book_id, tag_id) y dos FOREIGN KEY,
---   igual que en book_authors.
--- -------------------------------------------------------------
+CREATE TABLE book_tags (
+    book_id   INT     NOT NULL,
+    tag_id INT     NOT NULL,
+    count INT NOT NULL 
+    PRIMARY KEY (book_id, tag_id),
+    FOREIGN KEY (book_id)   REFERENCES books(id)   ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- -------------------------------------------------------------
--- TODO (Semana 1): tabla `my_library` (tu biblioteca personal)
---   - book_id   → FK a books, y PK (cada libro aparece una vez)
---   - status    → ENUM('quiero_leer', 'leyendo', 'leido') NOT NULL
---   - rating    → TINYINT, puede ser NULL, con un CHECK entre 1 y 5
---   - added_at  → DATETIME con DEFAULT CURRENT_TIMESTAMP
---   - finished_at → DATE, puede ser NULL
--- -------------------------------------------------------------
+CREATE TABLE my_library (
+    book_id   INT     NOT NULL,
+    status ENUM('quiero_leer','leyendo','leido')  NOT NULL,
+    rating  TINYINT  CHECK (rating BETWEEN 1 AND 5)
+    added_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    finished_at DATE 
+    PRIMARY KEY (book_id),
+    FOREIGN KEY (book_id)   REFERENCES books(id)   ON DELETE CASCADE,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
