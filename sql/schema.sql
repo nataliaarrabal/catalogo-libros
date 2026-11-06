@@ -48,14 +48,14 @@ CREATE TABLE book_authors (
 
 CREATE TABLE tags (
     id   INT     NOT NULL PRIMARY KEY,
-    name VARCHAR(255)     NOT NULL,
+    name VARCHAR(255)     NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE book_tags (
     book_id   INT     NOT NULL,
     tag_id INT     NOT NULL,
-    count INT NOT NULL 
+    tag_count INT NOT NULL, 
     PRIMARY KEY (book_id, tag_id),
     FOREIGN KEY (book_id)   REFERENCES books(id)   ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
@@ -65,9 +65,9 @@ CREATE TABLE book_tags (
 CREATE TABLE my_library (
     book_id   INT     NOT NULL,
     status ENUM('quiero_leer','leyendo','leido')  NOT NULL,
-    rating  TINYINT  CHECK (rating BETWEEN 1 AND 5)
-    added_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    finished_at DATE 
+    rating  TINYINT  CHECK (rating BETWEEN 1 AND 5),
+    added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    finished_at DATE,
     PRIMARY KEY (book_id),
-    FOREIGN KEY (book_id)   REFERENCES books(id)   ON DELETE CASCADE,
+    FOREIGN KEY (book_id)   REFERENCES books(id)   ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
